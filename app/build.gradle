@@ -59,6 +59,7 @@ dependencies {
     implementation libs.google.accompanist.flow
     implementation libs.google.material
     implementation project(':interop-rx2')
+    implementation("io.coil-kt:coil-compose:2.1.0")
 
     implementation libs.rxjava2
     implementation libs.rxrelay

@@ -37,6 +37,8 @@ import com.bumble.appyx.app.node.onboarding.screen.IntroScreen
 import com.bumble.appyx.app.node.onboarding.screen.RoutingSourceTeaser
 import com.bumble.appyx.app.node.onboarding.screen.StatefulNode1
 import com.bumble.appyx.app.node.onboarding.screen.StatefulNode2
+import com.bumble.appyx.app.node.profilecard.ProfileCard
+import com.bumble.appyx.app.node.profilecard.ProfileCardNode
 import com.bumble.appyx.app.ui.AppyxSampleAppTheme
 import com.bumble.appyx.app.ui.appyx_dark
 import com.bumble.appyx.core.composable.Children
@@ -62,6 +64,7 @@ class OnboardingContainerNode(
     buildContext: BuildContext,
     private val spotlight: Spotlight<Routing> = Spotlight(
         items = listOf(
+            Routing.ProfileCard,
             Routing.IntroScreen,
             Routing.ApplicationTree,
             Routing.StatefulNode1,
@@ -77,6 +80,8 @@ class OnboardingContainerNode(
 ) {
 
     sealed class Routing : Parcelable {
+        @Parcelize
+        object ProfileCard : Routing()
         @Parcelize
         object IntroScreen : Routing()
 
@@ -95,6 +100,7 @@ class OnboardingContainerNode(
 
     override fun resolve(routing: Routing, buildContext: BuildContext): Node =
         when (routing) {
+            Routing.ProfileCard -> ProfileCardNode(buildContext)
             Routing.IntroScreen -> IntroScreen(buildContext)
             Routing.ApplicationTree -> ApplicationTree(buildContext)
             Routing.StatefulNode1 -> StatefulNode1(buildContext)
