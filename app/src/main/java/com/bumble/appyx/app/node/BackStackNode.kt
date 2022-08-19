@@ -1,17 +1,11 @@
 package com.bumble.appyx.app.node
 
 import android.os.Parcelable
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.requiredWidth
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.Alignment.Companion
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
@@ -21,15 +15,16 @@ import com.bumble.appyx.core.composable.Children
 import com.bumble.appyx.core.modality.BuildContext
 import com.bumble.appyx.core.node.Node
 import com.bumble.appyx.core.node.ParentNode
-import com.bumble.appyx.routingsource.backstack.BackStack
-import com.bumble.appyx.routingsource.backstack.operation.pop
-import com.bumble.appyx.routingsource.backstack.operation.push
-import kotlin.random.Random
+import com.bumble.appyx.routingsource.cardstack.CardStack
+import com.bumble.appyx.routingsource.cardstack.operation.discard
+import com.bumble.appyx.routingsource.cardstack.operation.draw
+import com.bumble.appyx.routingsource.cardstack.transitionhandler.rememberCardStacker
 import kotlinx.android.parcel.Parcelize
+import kotlin.random.Random
 
 class BackStackNode(
     buildContext: BuildContext,
-    private val backStack: BackStack<Routing> = BackStack(
+    private val backStack: CardStack<Routing> = CardStack(
         initialElement = Routing.Child(),
         savedStateMap = buildContext.savedStateMap,
     ),
@@ -59,20 +54,21 @@ class BackStackNode(
             Children(
                 modifier = Modifier
                     .fillMaxSize(),
+//                    .padding(start = 30.dp),
                 routingSource = backStack,
-                transitionHandler = rememberBackstackSlider()
+                transitionHandler = rememberCardStacker()
             )
             Row(
                 modifier = Modifier
                     .align(Alignment.BottomCenter)
                     .padding(bottom = 16.dp)
             ) {
-                Button(onClick = { backStack.push(Routing.Child()) }) {
-                    Text(text = "Push", color = Color.Black)
+                Button(onClick = { backStack.draw(Routing.Child()) }) {
+                    Text(text = "Draw", color = Color.Black)
                 }
                 Spacer(modifier = Modifier.requiredWidth(16.dp))
-                Button(onClick = { backStack.pop() }) {
-                    Text(text = "Pop", color = Color.Black)
+                Button(onClick = { backStack.discard() }) {
+                    Text(text = "Discard", color = Color.Black)
                 }
             }
         }

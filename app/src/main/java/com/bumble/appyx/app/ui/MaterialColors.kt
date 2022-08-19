@@ -4,6 +4,7 @@ import androidx.compose.ui.graphics.Color
 
 // reds
 val md_red_50 = Color(0xFFFFEBEE)
+//val md_red_501 = Color(0xFF454545)
 val md_red_100 = Color(0xFFFFCDD2)
 val md_red_200 = Color(0xFFEF9A9A)
 val md_red_300 = Color(0xFFE57373)

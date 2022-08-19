@@ -53,7 +53,7 @@ class SpotlightSlider<T>(
 
 @Composable
 fun <T> rememberSpotlightSlider(
-    transitionSpec: TransitionSpec<Spotlight.TransitionState, Offset> = { spring(stiffness = Spring.StiffnessVeryLow) },
+    transitionSpec: TransitionSpec<Spotlight.TransitionState, Offset> = { spring(stiffness = 300f) },
     clipToBounds: Boolean = false
 ): ModifierTransitionHandler<T, Spotlight.TransitionState> = remember {
     SpotlightSlider(transitionSpec = transitionSpec, clipToBounds = clipToBounds)

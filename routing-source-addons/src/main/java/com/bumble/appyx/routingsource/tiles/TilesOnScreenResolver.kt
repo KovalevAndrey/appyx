@@ -9,6 +9,6 @@ internal object TilesOnScreenResolver : OnScreenStateResolver<TransitionState> {
             TransitionState.CREATED,
             TransitionState.STANDARD,
             TransitionState.SELECTED -> true
-            TransitionState.DESTROYED -> false
+            TransitionState.DESTROYED -> true
         }
 }

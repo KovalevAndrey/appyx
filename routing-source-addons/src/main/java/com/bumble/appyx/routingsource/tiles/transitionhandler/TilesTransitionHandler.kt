@@ -28,13 +28,13 @@ class TilesTransitionHandler<T>(
         descriptor: TransitionDescriptor<T, Tiles.TransitionState>
     ): Modifier = modifier.composed {
         val scale = transition.animateFloat(
-            transitionSpec = transitionSpec,
+            transitionSpec = { spring() },
             targetValueByState = {
                 when (it) {
                     Tiles.TransitionState.CREATED -> 0f
                     Tiles.TransitionState.STANDARD -> 0.75f
                     Tiles.TransitionState.SELECTED -> 1.0f
-                    Tiles.TransitionState.DESTROYED -> 0f
+                    Tiles.TransitionState.DESTROYED -> 0.75f
                 }
             })
 
@@ -60,7 +60,7 @@ class TilesTransitionHandler<T>(
 
 @Composable
 fun <T> rememberTilesTransitionHandler(
-    transitionSpec: TransitionSpec<Tiles.TransitionState, Float> = { spring() }
+    transitionSpec: TransitionSpec<Tiles.TransitionState, Float> = { spring(stiffness = 10f) }
 ): ModifierTransitionHandler<T, Tiles.TransitionState> = remember {
     TilesTransitionHandler(transitionSpec)
 }

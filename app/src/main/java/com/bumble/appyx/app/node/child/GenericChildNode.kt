@@ -1,44 +1,19 @@
 package com.bumble.appyx.app.node.child
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.derivedStateOf
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Color.Companion
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.coroutineScope
-import com.bumble.appyx.app.ui.atomic_tangerine
-import com.bumble.appyx.app.ui.manatee
-import com.bumble.appyx.app.ui.md_amber_500
-import com.bumble.appyx.app.ui.md_blue_500
-import com.bumble.appyx.app.ui.md_blue_grey_500
-import com.bumble.appyx.app.ui.md_cyan_500
-import com.bumble.appyx.app.ui.md_grey_500
-import com.bumble.appyx.app.ui.md_indigo_500
-import com.bumble.appyx.app.ui.md_light_blue_500
-import com.bumble.appyx.app.ui.md_light_green_500
-import com.bumble.appyx.app.ui.md_lime_500
-import com.bumble.appyx.app.ui.md_pink_500
-import com.bumble.appyx.app.ui.md_teal_500
-import com.bumble.appyx.app.ui.silver_sand
-import com.bumble.appyx.app.ui.sizzling_red
+import com.bumble.appyx.app.ui.*
 import com.bumble.appyx.core.integration.NodeHost
 import com.bumble.appyx.core.integrationpoint.IntegrationPointStub
 import com.bumble.appyx.core.modality.BuildContext
@@ -106,14 +81,14 @@ class GenericChildNode(
     @Composable
     override fun View(modifier: Modifier) {
         val color by derivedStateOf { colors[colorIndex] }
-        val text = remember { "Value: ${Random.nextInt(0, 100)}" }
+//        val text = remember { "Value: ${Random.nextInt(0, 100)}" }
         Box(
-            modifier = Modifier
+            modifier = modifier
                 .fillMaxSize()
                 .padding(6.dp)
         ) {
             Text(
-                text = text,
+                text = "$counter",
                 color = Color.Black,
                 modifier = Modifier.align(Alignment.Center),
                 fontSize = 50.sp

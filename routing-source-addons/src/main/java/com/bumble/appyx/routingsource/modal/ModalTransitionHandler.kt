@@ -55,8 +55,8 @@ class ModalTransitionHandler<T>(
             transitionSpec = transitionSpec,
             targetValueByState = {
                 when (it) {
-                    TransitionState.CREATED -> 0.8f
-                    TransitionState.MODAL -> 0.9f
+                    TransitionState.CREATED -> 1f
+                    TransitionState.MODAL -> 1f
                     TransitionState.FULL_SCREEN -> 1f
                     TransitionState.DESTROYED -> 1f
                 }
