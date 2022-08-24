@@ -39,7 +39,7 @@ import com.bumble.appyx.core.integrationpoint.IntegrationPointStub
 import com.bumble.appyx.core.modality.BuildContext.Companion.root
 import kotlin.random.Random
 
-private val colors = listOf(
+val colors = listOf(
     md_pink_300,
     md_indigo_300,
     md_blue_300,
@@ -54,13 +54,13 @@ private val colors = listOf(
 )
 
 class SimpleGraphNode(
-    private val label: String,
-    private val color: Color = colors[Random.nextInt(colors.size)],
+    val label: String,
+    private val color: Color = colors[Random.nextInt(0, 1000) % colors.size],
     private val children: List<GraphNode> = emptyList()
 ) : GraphNode {
 
     override val isActive: MutableState<Boolean> =
-        mutableStateOf(false)
+        mutableStateOf(true)
 
     override fun children(): List<GraphNode> =
         children

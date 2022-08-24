@@ -1,11 +1,8 @@
 package com.bumble.appyx.app.node.onboarding.screen
 
-import androidx.compose.foundation.horizontalScroll
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
@@ -15,11 +12,15 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.ExperimentalUnitApi
-import com.bumble.appyx.app.composable.Page
+import androidx.compose.ui.unit.dp
 import com.bumble.appyx.app.composable.graph.GraphNode
 import com.bumble.appyx.app.composable.graph.Tree
 import com.bumble.appyx.app.composable.graph.nodeimpl.SimpleGraphNode
+import com.bumble.appyx.app.composable.graph.nodeimpl.colors
 import com.bumble.appyx.app.ui.AppyxSampleAppTheme
+import com.bumble.appyx.app.ui.md_blue_300
+import com.bumble.appyx.app.ui.md_cyan_300
+import com.bumble.appyx.app.ui.md_pink_300
 import com.bumble.appyx.core.integration.NodeHost
 import com.bumble.appyx.core.integrationpoint.IntegrationPointStub
 import com.bumble.appyx.core.modality.BuildContext
@@ -34,9 +35,29 @@ class ApplicationTree(
 ) : Node(
     buildContext = buildContext,
 ) {
-    private val o1 = SimpleGraphNode(label = "O1")
-    private val o2 = SimpleGraphNode(label = "O2")
-    private val o3 = SimpleGraphNode(label = "O3")
+    private val login = SimpleGraphNode("Login")
+    private val r1 = SimpleGraphNode("R1")
+    private val r2 = SimpleGraphNode("R2")
+    private val r3 = SimpleGraphNode("R3")
+    private val register = SimpleGraphNode(
+        label = "Register",
+        children = listOf(
+            r1,
+            r2,
+            r3,
+        )
+    )
+    private val loggedOut = SimpleGraphNode(
+        color = md_pink_300,
+        label = "LoggedOut",
+        children = listOf(
+            register,
+            login
+        )
+    )
+    private val o1 = SimpleGraphNode("O1")
+    private val o2 = SimpleGraphNode("O2")
+    private val o3 = SimpleGraphNode("O3")
     private val onboarding = SimpleGraphNode(
         label = "Onboarding",
         children = listOf(
@@ -45,53 +66,91 @@ class ApplicationTree(
             o3,
         )
     )
-
-    private val people = SimpleGraphNode(label = "People")
-    private val chat = SimpleGraphNode(label = "Chat")
-    private val messages = SimpleGraphNode(
-        label = "Messages",
+    private val c1 = SimpleGraphNode(label = "C1", color = colors[7])
+    private val c2 = SimpleGraphNode(label = "C2", color = colors[6])
+    private val c3 = SimpleGraphNode(color = colors[5], label = "C3")
+    private val dating = SimpleGraphNode(
+        color = colors[4],
+        label = "Dating",
         children = listOf(
-            people,
-            chat,
+            c1,
+            c2,
+            c3,
         )
     )
-
-    private val settings = SimpleGraphNode(label = "Settings")
-    private val profile = SimpleGraphNode(label = "Profile")
+    private val messages = SimpleGraphNode(color = colors[3], label = "Messages")
     private val main = SimpleGraphNode(
+        color = colors[8],
         label = "Main",
         children = listOf(
+            dating,
             messages,
-            profile,
-            settings
+        )
+    )
+    private val loggedIn = SimpleGraphNode(
+        color = md_cyan_300,
+        label = "LoggedIn",
+        children = listOf(
+            main,
+            onboarding,
         )
     )
     private val root: GraphNode = SimpleGraphNode(
+        color = md_blue_300,
         label = "Root",
         children = listOf(
-            onboarding,
-            main,
+            loggedOut,
+            loggedIn,
         )
     )
 
     @Composable
     override fun View(modifier: Modifier) {
-        Page(
-            modifier = modifier,
-            title = "Nodes",
-            body = "The app is organised into a tree of Nodes." +
-                    "\n\nNodes have @Composable UI, each have their own lifecycle on and off the screen, " +
-                    "and can choose which of their children to delegate the control flow to."
-        ) {
-            Column(
+        Box(modifier = Modifier.fillMaxSize()) {
+
+            Tree(
                 modifier = Modifier
-                    .fillMaxSize()
-                    .horizontalScroll(rememberScrollState()),
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Tree(graphNode = root)
+                    .padding(top = 16.dp)
+                    .align(Alignment.TopCenter),
+                graphNode = root
+            )
+        }
+
+        fun deactivateSubtree(subtreeRoot: GraphNode) {
+            subtreeRoot.isActive.value = false
+            val children = subtreeRoot.children()
+            if (children.isNotEmpty()) {
+                children.forEach {
+                    deactivateSubtree(it)
+                }
             }
+        }
+
+        fun activateLeafNode(
+            root: GraphNode,
+            graphNodeToActivate: GraphNode,
+            path: List<GraphNode> = listOf()
+        ): List<GraphNode>? {
+            val children = root.children()
+            val newPath = path.toMutableList().apply { add(root) }
+            if (graphNodeToActivate == root) {
+                return newPath
+            } else if (children.isEmpty()) {
+                return null
+            } else {
+                children.forEach {
+                    val childResult = activateLeafNode(it, graphNodeToActivate, newPath)
+                    if (childResult != null) {
+                        return childResult
+                    }
+                }
+            }
+            return null
+        }
+
+        fun activateNode(node: GraphNode) {
+            deactivateSubtree(root)
+            activateLeafNode(root, node)?.forEach { it.isActive.value = true }
         }
 
         LaunchedEffect(Unit) {
@@ -99,48 +158,37 @@ class ApplicationTree(
             val intervalDelay: Long = 1200
 
             while (true) {
-                root.isActive.value = false
-                onboarding.isActive.value = false
-                o1.isActive.value = false
-                o2.isActive.value = false
-                o3.isActive.value = false
-                main.isActive.value = false
-                settings.isActive.value = false
-                profile.isActive.value = false
-                messages.isActive.value = false
-                people.isActive.value = false
-                chat.isActive.value = false
+
+                deactivateSubtree(root)
 
                 delay(startDelay)
-                root.isActive.value = true
-                onboarding.isActive.value = true
-                o1.isActive.value = true
+                activateNode(r1)
                 delay(intervalDelay)
-                o1.isActive.value = false
-                o2.isActive.value = true
+                activateNode(r2)
                 delay(intervalDelay)
-                o2.isActive.value = false
-                o3.isActive.value = true
+                activateNode(r3)
 
                 delay(intervalDelay)
-                o3.isActive.value = false
-                onboarding.isActive.value = false
-                main.isActive.value = true
-                profile.isActive.value = true
+                activateNode(login)
 
                 delay(intervalDelay)
-                profile.isActive.value = false
-                messages.isActive.value = true
-                people.isActive.value = true
+                activateNode(c1)
 
                 delay(intervalDelay)
-                people.isActive.value = false
-                chat.isActive.value = true
+                activateNode(c2)
 
                 delay(intervalDelay)
-                messages.isActive.value = false
-                chat.isActive.value = false
-                settings.isActive.value = true
+                activateNode(c3)
+
+                delay(intervalDelay)
+                activateNode(messages)
+
+                delay(intervalDelay)
+                activateNode(o1)
+                delay(intervalDelay)
+                activateNode(o2)
+                delay(intervalDelay)
+                activateNode(o3)
 
                 delay(intervalDelay * 2)
             }

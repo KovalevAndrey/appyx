@@ -15,22 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.bumble.appyx.app.composable.graph.GraphNode
-import com.bumble.appyx.app.composable.graph.Tree
-import com.bumble.appyx.app.ui.atomic_tangerine
-import com.bumble.appyx.app.ui.manatee
-import com.bumble.appyx.app.ui.silver_sand
-import com.bumble.appyx.app.ui.sizzling_red
-import com.bumble.appyx.app.ui.md_amber_500
-import com.bumble.appyx.app.ui.md_blue_500
-import com.bumble.appyx.app.ui.md_blue_grey_500
-import com.bumble.appyx.app.ui.md_cyan_500
-import com.bumble.appyx.app.ui.md_grey_500
-import com.bumble.appyx.app.ui.md_indigo_500
-import com.bumble.appyx.app.ui.md_light_blue_500
-import com.bumble.appyx.app.ui.md_light_green_500
-import com.bumble.appyx.app.ui.md_lime_500
-import com.bumble.appyx.app.ui.md_pink_500
-import com.bumble.appyx.app.ui.md_teal_500
+import com.bumble.appyx.app.ui.*
 import kotlin.random.Random
 
 class TestImpl(
@@ -92,5 +77,5 @@ class TestImpl(
 @Composable
 @ExperimentalComposeUiApi
 fun TestImplPreview() {
-    Tree(TestImpl(1, 2))
+//    Tree(TestImpl(1, 2))
 }

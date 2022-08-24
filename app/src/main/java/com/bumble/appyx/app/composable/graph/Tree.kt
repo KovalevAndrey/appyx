@@ -3,12 +3,7 @@ package com.bumble.appyx.app.composable.graph
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.IntrinsicSize
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateMapOf
@@ -27,12 +22,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
-import com.bumble.appyx.app.composable.graph.nodeimpl.TestImpl
+import com.bumble.appyx.app.composable.graph.nodeimpl.SimpleGraphNode
 
 
 @Composable
 @ExperimentalComposeUiApi
 fun Tree(
+    modifier: Modifier = Modifier,
     graphNode: GraphNode,
     parentChildrenTopCenters: SnapshotStateMap<Int, Offset> = mutableStateMapOf(),
     idx: Int = 0,
@@ -47,7 +43,7 @@ fun Tree(
     val thisChildrenTopCenters = remember { mutableStateMapOf<Int, Offset>() }
 
     Column(
-        modifier = Modifier
+        modifier = modifier
             .width(IntrinsicSize.Min)
             .onGloballyPositioned {
                 wrapperOffset.value = it.positionInParent()
@@ -85,20 +81,32 @@ fun Tree(
                         .height(gapHeight)
                 ) {
                     thisChildrenTopCenters.values.forEachIndexed { idx, childTopCenter ->
-                            drawLine(
-                                start = Offset(thisNodeBottomCenter.value.x, -20f), // TODO this assumes child size
-                                end = Offset(childTopCenter.x, size.height + 20), // TODO this assumes child size
-                                color = colors[idx].value,
-                                strokeWidth = strokeWidth,
-                                cap = StrokeCap.Round
-                            )
+                        drawLine(
+                            start = Offset(thisNodeBottomCenter.value.x, -20f), // TODO this assumes child size
+                            end = Offset(childTopCenter.x, size.height + 20), // TODO this assumes child size
+                            color = colors[idx].value,
+                            strokeWidth = strokeWidth,
+                            cap = StrokeCap.Round
+                        )
                     }
                 }
             }
 
             Row {
                 children.forEachIndexed { idx, child ->
+                    child as SimpleGraphNode
                     Tree(
+//                        modifier = Modifier.offset(
+//                            when (child.label) {
+//                                "Messages" -> (-16).dp
+//                                "Profile" -> (16).dp
+//                                "Login" -> (-12).dp
+//                                "Splash" -> (12).dp
+//                                "LoggedIn" -> (-20).dp
+//                                "LoggedOut" -> (20).dp
+//                                else -> 0.dp
+//                            }
+//                        ),
                         graphNode = child,
                         parentChildrenTopCenters = thisChildrenTopCenters,
                         idx = idx,
@@ -113,5 +121,5 @@ fun Tree(
 @Composable
 @ExperimentalComposeUiApi
 fun GraphNodePreview() {
-    Tree(TestImpl(1, 4))
+//    Tree(TestImpl(1, 4))
 }
