@@ -29,9 +29,7 @@ class MainActivity : NodeActivity() {
                 Surface(color = MaterialTheme.colors.background) {
                     Column {
                         NodeHost(integrationPoint = integrationPoint) {
-                            RootNode(
-                                buildContext = it,
-                            )
+                            CardsTeaserNode(buildContext = it)
                         }
                     }
                 }
