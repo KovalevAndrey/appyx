@@ -29,7 +29,7 @@ class MainActivity : NodeActivity() {
                 Surface(color = MaterialTheme.colors.background) {
                     Column {
                         NodeHost(integrationPoint = integrationPoint) {
-                            CardsTeaserNode(buildContext = it)
+                            SpotlightAdvancedExampleNode(buildContext = it)
                         }
                     }
                 }

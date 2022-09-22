@@ -52,11 +52,11 @@ fun ProfileCard(
             Column(
                 modifier = Modifier
                     .align(Alignment.BottomStart)
-                    .padding(start = 16.dp, bottom = 16.dp)
+                    .padding(start = 16.dp, bottom = 64.dp)
             ) {
-                Text(text = "$name, $age", color = Color.White, fontSize = 22.sp)
+                Text(text = "$name, $age", color = Color.White, fontSize = 30.sp)
                 Spacer(modifier = Modifier.requiredHeight(4.dp))
-                Text(text = "London", color = Color.White, fontSize = 18.sp)
+                Text(text = "London", color = Color.White, fontSize = 20.sp)
             }
         }
     }
