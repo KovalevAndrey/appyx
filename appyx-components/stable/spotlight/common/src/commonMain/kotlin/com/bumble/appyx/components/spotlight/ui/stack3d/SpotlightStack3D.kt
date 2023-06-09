@@ -61,6 +61,7 @@ class SpotlightStack3D<InteractionTarget : Any>(
                             CREATED -> created
                             STANDARD -> standard
                             DESTROYED -> destroyed
+                            else -> standard
                         },
                         positionInList = index,
                     )
@@ -71,7 +72,7 @@ class SpotlightStack3D<InteractionTarget : Any>(
 
     override fun mutableUiStateFor(
         uiContext: UiContext,
-        targetUiState: TargetUiState
+        targetUiState: TargetUiState, position: Int
     ): MutableUiState =
         targetUiState.toMutableState(
             uiContext = uiContext,

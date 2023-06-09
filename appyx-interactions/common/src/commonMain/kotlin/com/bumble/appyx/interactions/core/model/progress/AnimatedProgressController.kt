@@ -25,6 +25,8 @@ class AnimatedProgressController<InteractionTarget : Any, ModelState>(
     private val animatable = Animatable(0f)
     // FIXME private lateinit var result: AnimationResult<Float, AnimationVector1D>
 
+    var animateSettleLast = this.animateSettle
+
     override fun operation(operation: Operation<ModelState>) {
         operation(operation, defaultAnimationSpec)
     }
@@ -33,6 +35,8 @@ class AnimatedProgressController<InteractionTarget : Any, ModelState>(
         operation: Operation<ModelState>,
         animationSpec: AnimationSpec<Float>
     ) {
+        animateSettleLast = operation.animateSettle
+        AppyxLogger.d("LASTOPERATION", "is $animateSettleLast")
         model.operation(operation)
         val currentState = model.output.value
         if (currentState is Keyframes<ModelState>) {
@@ -44,7 +48,7 @@ class AnimatedProgressController<InteractionTarget : Any, ModelState>(
                 onAnimationFinished = {
                     model.onSettled(
                         direction = COMPLETE,
-                        animate = animateSettle
+                        animate = operation.animateSettle
                     )
                 }
             )
@@ -56,6 +60,7 @@ class AnimatedProgressController<InteractionTarget : Any, ModelState>(
         completionThreshold: Float = 0.5f,
         completeGestureSpec: AnimationSpec<Float> = spring(),
         revertGestureSpec: AnimationSpec<Float> = spring(),
+        animateSettle: Boolean
     ) {
         val currentState = model.output.value
         if (currentState is Keyframes<ModelState>) {

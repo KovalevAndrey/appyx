@@ -12,7 +12,7 @@ import com.bumble.appyx.interactions.AppyxLoggingLevel.WARN
 actual object AppyxLogger {
 
     @IntRange(from = VERBOSE.toLong(), to = DISABLED.toLong())
-    actual var loggingLevel: Int = DISABLED
+    actual var loggingLevel: Int = VERBOSE
 
     actual fun v(tag: String, message: String) {
         if (loggingLevel <= VERBOSE) {

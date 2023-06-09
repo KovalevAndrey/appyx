@@ -1,5 +1,7 @@
 package com.bumble.appyx.transitionmodel
 
+import androidx.compose.animation.core.Spring.DampingRatioNoBouncy
+import androidx.compose.animation.core.Spring.StiffnessMediumLow
 import androidx.compose.animation.core.SpringSpec
 import androidx.compose.animation.core.spring
 import androidx.compose.foundation.layout.Box
@@ -14,7 +16,6 @@ import com.bumble.appyx.interactions.core.model.transition.Segment
 import com.bumble.appyx.interactions.core.model.transition.Update
 import com.bumble.appyx.interactions.core.ui.MotionController
 import com.bumble.appyx.interactions.core.ui.context.UiContext
-import com.bumble.appyx.interactions.core.ui.helper.DefaultAnimationSpec
 import com.bumble.appyx.interactions.core.ui.math.lerpFloat
 import com.bumble.appyx.interactions.core.ui.output.ElementUiModel
 import com.bumble.appyx.interactions.core.ui.property.impl.GenericFloatProperty
@@ -31,7 +32,7 @@ import kotlinx.coroutines.launch
 
 abstract class BaseMotionController<InteractionTarget : Any, ModelState, MutableUiState, TargetUiState>(
     private val uiContext: UiContext,
-    protected val defaultAnimationSpec: SpringSpec<Float> = DefaultAnimationSpec,
+    protected val defaultAnimationSpec: SpringSpec<Float> = spring(),
 ) : MotionController<InteractionTarget, ModelState> where MutableUiState : BaseMutableUiState<TargetUiState> {
 
     open val viewpointDimensions: List<Pair<(ModelState) -> Float, GenericFloatProperty>> =
@@ -75,8 +76,13 @@ abstract class BaseMotionController<InteractionTarget : Any, ModelState, Mutable
 
     abstract fun mutableUiStateFor(
         uiContext: UiContext,
-        targetUiState: TargetUiState
+        targetUiState: TargetUiState,
+        position: Int
     ): MutableUiState
+
+    open fun updatingState(mutableUiState: MutableUiState, position: Int) {
+
+    }
 
     override fun mapUpdate(
         update: Update<ModelState>
@@ -90,10 +96,11 @@ abstract class BaseMotionController<InteractionTarget : Any, ModelState, Mutable
         }
 
         // TODO: use a map instead of find
-        return matchedTargetUiStates.map { t1 ->
+        return matchedTargetUiStates.mapIndexed { index, t1 ->
             val mutableUiState = mutableUiStateCache.getOrPut(t1.element.id) {
-                mutableUiStateFor(uiContext, t1.targetUiState)
+                mutableUiStateFor(uiContext, t1.targetUiState, index)
             }
+            updatingState(mutableUiState, index)
             ElementUiModel(
                 element = t1.element,
                 visibleState = mutableUiState.isVisible,
@@ -135,7 +142,7 @@ abstract class BaseMotionController<InteractionTarget : Any, ModelState, Mutable
                     mutableUiState.animateTo(
                         scope = this,
                         target = matchedTargetUiState.targetUiState,
-                        springSpec = currentSpringSpec,
+                        springSpec = spring(stiffness = StiffnessMediumLow),
                     )
                 } else {
                     mutableUiState.snapTo(matchedTargetUiState.targetUiState)
@@ -209,11 +216,12 @@ abstract class BaseMotionController<InteractionTarget : Any, ModelState, Mutable
         }
 
         // TODO: use a map instead of find
-        return toTargetUiState.map { t1 ->
+        return toTargetUiState.mapIndexed {index,  t1 ->
             val t0 = fromTargetUiState.find { it.element.id == t1.element.id }!!
             val mutableUiState = mutableUiStateCache.getOrPut(t1.element.id) {
-                mutableUiStateFor(uiContext, t0.targetUiState)
+                mutableUiStateFor(uiContext, t0.targetUiState, index)
             }
+            updatingState(mutableUiState, index)
             // Synchronously, immediately apply current interpolated value before the new mutable state
             // reaches composition. This is to avoid jumping between default & current value.
             mutableUiState.lerpTo(coroutineScope, t0.targetUiState, t1.targetUiState, initialProgress)
@@ -267,7 +275,7 @@ abstract class BaseMotionController<InteractionTarget : Any, ModelState, Mutable
                         viewpointDimension.animateTo(
                             targetValue, spring(
                                 stiffness = currentSpringSpec.stiffness,
-                                dampingRatio = currentSpringSpec.dampingRatio
+                                dampingRatio = DampingRatioNoBouncy
                             )
                         ) {
                             AppyxLogger.d(TAG, "Viewpoint animateTo (Segment) – ${viewpointDimension.internalValue} -> $targetValue")

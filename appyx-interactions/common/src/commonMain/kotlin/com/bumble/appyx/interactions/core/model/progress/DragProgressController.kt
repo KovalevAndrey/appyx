@@ -27,6 +27,8 @@ internal class DragProgressController<InteractionTarget : Any, State>(
             }
         }
 
+    var animateSettleLast = false
+
     private var gesture: Gesture<InteractionTarget, State>? = null
 
     override fun onStartDrag(position: Offset) {
@@ -63,31 +65,33 @@ internal class DragProgressController<InteractionTarget : Any, State>(
             gesture = _gestureFactory!!.invoke(dragAmount)
         }
 
-        requireNotNull(gesture)
-        val operation = gesture!!.operation
+        val gesture = requireNotNull(gesture)
+        val isContinuous = gesture.isContinuous
+        val operation = gesture.operation
         operation.mode = KEYFRAME
-        val deltaProgress = gesture!!.dragToProgress(dragAmount)
+        animateSettleLast = operation.animateSettle
+        val deltaProgress = gesture.dragToProgress(dragAmount)
         require(!deltaProgress.isNaN()) { "deltaProgress is NaN! – dragAmount: $dragAmount, gesture: $gesture, operation: $operation" }
         val currentProgress = if (currentState is Keyframes<*>) currentState.progress else 0f
         val totalTarget = currentProgress + deltaProgress
 
         // Case: we can start a new operation
-        if (gesture!!.startProgress == null) {
+        if (gesture.startProgress == null) {
             // TODO internally this will always apply it to the end of a Keyframes queue,
             //  which is not necessarily what we want:
             if (model.canApply(operation)) {
                 model.operation(operation)
-                gesture!!.startProgress = currentProgress
+                gesture.startProgress = currentProgress
                 AppyxLogger.d(TAG, "Gesture operation applied: $operation")
             } else {
                 AppyxLogger.d(TAG, "Gesture operation wasn't applied, releasing it to re-evaluate")
-                gesture = null
+                this.gesture = null
                 return
             }
             // Case: we can continue the existing operation
         }
 
-        val startProgress = gesture!!.startProgress!!
+        val startProgress = gesture.startProgress!!
 
         // Case: we go forward, it's cool
         if (totalTarget > startProgress) {
@@ -105,7 +109,7 @@ internal class DragProgressController<InteractionTarget : Any, State>(
             } else {
                 // TODO without recursion
                 val remainder =
-                    consumePartial(COMPLETE, dragAmount, totalTarget, deltaProgress, startProgress + 1)
+                    consumePartial(COMPLETE, dragAmount, totalTarget, deltaProgress, startProgress + 1, operation.animateSettle)
                 if (remainder.getDistanceSquared() > 0) {
                     consumeDrag(remainder)
                 }
@@ -115,7 +119,7 @@ internal class DragProgressController<InteractionTarget : Any, State>(
             // now we need to re-evaluate for a new operation
         } else {
             // TODO without recursion
-            val remainder = consumePartial(REVERT, dragAmount, totalTarget, deltaProgress, startProgress)
+            val remainder = consumePartial(REVERT, dragAmount, totalTarget, deltaProgress, startProgress, operation.animateSettle)
             if (dragAmount != remainder) {
                 consumeDrag(remainder)
             }
@@ -127,10 +131,11 @@ internal class DragProgressController<InteractionTarget : Any, State>(
         dragAmount: Offset,
         totalTarget: Float,
         deltaProgress: Float,
-        boundary: Float
+        boundary: Float,
+        animateSettle: Boolean
     ): Offset {
         model.setProgress(boundary)
-        model.onSettled(direction, false)
+        model.onSettled(direction, animateSettle)
         val remainder = gesture!!.partial(dragAmount, totalTarget - (boundary))
         gesture = null
         AppyxLogger.d(TAG, "1 ------")

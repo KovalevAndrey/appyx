@@ -25,7 +25,7 @@ class PromoterMotionController<InteractionTarget : Any>(
 
     override fun mutableUiStateFor(
         uiContext: UiContext,
-        targetUiState: TargetUiState
+        targetUiState: TargetUiState, position: Int
     ): MutableUiState {
         TODO("Not yet implemented")
     }

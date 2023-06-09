@@ -35,7 +35,7 @@ import com.bumble.appyx.interactions.core.ui.context.TransitionBounds
 import com.bumble.appyx.interactions.core.ui.context.UiContext
 import com.bumble.appyx.interactions.core.ui.output.ElementUiModel
 
-private val defaultExtraTouch = 48f.dp
+val defaultExtraTouch = 48f.dp
 
 @Composable
 fun <InteractionTarget : Any, ModelState : Any> DraggableAppyxComponent(

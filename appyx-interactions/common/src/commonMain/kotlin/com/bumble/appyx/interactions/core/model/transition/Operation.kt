@@ -5,6 +5,9 @@ import com.bumble.appyx.interactions.Parcelize
 
 interface Operation<ModelState> : Parcelable {
 
+    val animateSettle: Boolean
+        get() = false
+
     enum class Mode {
 
         /**
@@ -17,6 +20,7 @@ interface Operation<ModelState> : Parcelable {
          * Operation should be enqueued and treated as a keyframe.
          */
         KEYFRAME,
+
         /**
          * The operation should be executed without a queue just the same as IMMEDIATE, but with a
          * special condition: when the model is already in KEYFRAME mode, the operation result

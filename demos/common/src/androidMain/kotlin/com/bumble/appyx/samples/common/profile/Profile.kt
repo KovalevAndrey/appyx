@@ -21,27 +21,27 @@ data class Profile(
     companion object {
         val profile002 = Profile(
             name = "Victoria",
-            drawableRes = R.drawable.halloween3
+            drawableRes = R.drawable.halloween8
         )
 
         val profile1001 = Profile(
             name = "Brittany",
-            drawableRes = R.drawable.halloween4
+            drawableRes = R.drawable.halloween6
         )
 
         val profile1003 = Profile(
             name = "Jill",
-            drawableRes = R.drawable.halloween6
+            drawableRes = R.drawable.halloween9
         )
 
         val profile2001 = Profile(
             name = "Matt",
-            drawableRes = R.drawable.halloween7
+            drawableRes = R.drawable.halloween15
         )
 
         val profile2002 = Profile(
             name = "Ryan",
-            drawableRes = R.drawable.halloween8
+            drawableRes = R.drawable.halloween7
         )
 
         val profile2003 = Profile(

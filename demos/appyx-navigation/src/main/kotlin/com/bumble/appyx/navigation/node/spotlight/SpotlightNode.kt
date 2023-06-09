@@ -1,18 +1,12 @@
 package com.bumble.appyx.navigation.node.spotlight
 
 import android.os.Parcelable
-import androidx.compose.animation.core.Spring
-import androidx.compose.animation.core.spring
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -24,12 +18,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.bumble.appyx.components.spotlight.Spotlight
 import com.bumble.appyx.components.spotlight.SpotlightModel
-import com.bumble.appyx.components.spotlight.operation.first
-import com.bumble.appyx.components.spotlight.operation.last
-import com.bumble.appyx.components.spotlight.operation.next
-import com.bumble.appyx.components.spotlight.operation.previous
-import com.bumble.appyx.components.spotlight.operation.updateElements
-import com.bumble.appyx.components.spotlight.ui.slider.SpotlightSlider
+import com.bumble.appyx.components.spotlight.ui.sliderscale.SpotlightSliderScale
 import com.bumble.appyx.navigation.colors
 import com.bumble.appyx.navigation.composable.AppyxComponent
 import com.bumble.appyx.navigation.modality.BuildContext
@@ -48,7 +37,8 @@ class SpotlightNode(
             initialActiveIndex = 0f,
             savedStateMap = buildContext.savedStateMap
         ),
-        motionController = { SpotlightSlider(it) }
+        gestureFactory = { SpotlightSliderScale.Gestures(it) },
+        motionController = { SpotlightSliderScale(it) }
     )
 ) : ParentNode<InteractionTarget>(
     buildContext = buildContext,
@@ -92,40 +82,40 @@ class SpotlightNode(
             AppyxComponent(
                 appyxComponent = spotlight,
                 modifier = Modifier
-                    .padding(
-                        horizontal = 64.dp,
-                        vertical = 12.dp
-                    )
-                    .weight(0.9f)
+//                    .padding(
+//                        horizontal = 64.dp,
+//                        vertical = 12.dp
+//                    )
+//                    .weight(0.9f)
             )
 
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .weight(0.1f),
-                horizontalArrangement = Arrangement.SpaceEvenly
-            ) {
-                Button(onClick = {
-                    spotlight.updateElements(
-                        newItems.shuffled(),
-                        animationSpec = spring(stiffness = Spring.StiffnessVeryLow / 20)
-                    )
-                }) {
-                    Text("New")
-                }
-                Button(onClick = { spotlight.first() }) {
-                    Text("First")
-                }
-                Button(onClick = { spotlight.previous(spring(stiffness = Spring.StiffnessLow)) }) {
-                    Text("Prev")
-                }
-                Button(onClick = { spotlight.next(spring(stiffness = Spring.StiffnessMedium)) }) {
-                    Text("Next")
-                }
-                Button(onClick = { spotlight.last() }) {
-                    Text("Last")
-                }
-            }
+//            Row(
+//                modifier = Modifier
+//                    .fillMaxWidth()
+//                    .weight(0.1f),
+//                horizontalArrangement = Arrangement.SpaceEvenly
+//            ) {
+//                Button(onClick = {
+//                    spotlight.updateElements(
+//                        newItems.shuffled(),
+//                        animationSpec = spring(stiffness = Spring.StiffnessVeryLow / 20)
+//                    )
+//                }) {
+//                    Text("New")
+//                }
+//                Button(onClick = { spotlight.first() }) {
+//                    Text("First")
+//                }
+//                Button(onClick = { spotlight.previous(spring(stiffness = Spring.StiffnessLow)) }) {
+//                    Text("Prev")
+//                }
+//                Button(onClick = { spotlight.next(spring(stiffness = Spring.StiffnessMedium)) }) {
+//                    Text("Next")
+//                }
+//                Button(onClick = { spotlight.last() }) {
+//                    Text("Last")
+//                }
+//            }
         }
     }
 }

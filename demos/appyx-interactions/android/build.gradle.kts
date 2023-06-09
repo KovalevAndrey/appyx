@@ -42,6 +42,7 @@ dependencies {
 
     implementation(composeBom)
     implementation(project(":appyx-interactions:android"))
+    implementation(project(":demos:common"))
     implementation(project(":appyx-components:stable:spotlight:spotlight"))
     implementation(project(":appyx-components:stable:backstack:backstack"))
     implementation(project(":appyx-components:experimental:modal:modal"))

@@ -189,7 +189,7 @@ abstract class MotionProperty<T, V : AnimationVector>(
             }
         }
 
-        AppyxLogger.v("MotionProperty", "Calculated velocity: $velocity")
+//        AppyxLogger.v("MotionProperty", "Calculated velocity: $velocity")
         return velocity
     }
 

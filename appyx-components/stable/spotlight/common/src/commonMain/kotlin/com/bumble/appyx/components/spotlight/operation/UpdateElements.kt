@@ -5,6 +5,8 @@ import com.bumble.appyx.components.spotlight.Spotlight
 import com.bumble.appyx.components.spotlight.SpotlightModel
 import com.bumble.appyx.components.spotlight.SpotlightModel.State.ElementState.CREATED
 import com.bumble.appyx.components.spotlight.SpotlightModel.State.ElementState.DESTROYED
+import com.bumble.appyx.components.spotlight.SpotlightModel.State.ElementState.DISMISSED
+import com.bumble.appyx.components.spotlight.SpotlightModel.State.ElementState.SELECTED
 import com.bumble.appyx.components.spotlight.SpotlightModel.State.ElementState.STANDARD
 import com.bumble.appyx.components.spotlight.SpotlightModel.State.Position
 import com.bumble.appyx.interactions.Parcelize
@@ -53,6 +55,8 @@ class UpdateElements<InteractionTarget : Any>(
                             CREATED -> STANDARD
                             STANDARD -> DESTROYED
                             DESTROYED -> DESTROYED
+                            SELECTED -> SELECTED
+                            DISMISSED -> DISMISSED
                         }
                     }
                 )

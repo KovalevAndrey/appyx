@@ -76,7 +76,7 @@ fun Puzzle15Ui(
                 screenWidthPx = screenWidthPx,
                 screenHeightPx = screenHeightPx,
                 appyxComponent = puzzle15,
-            ) { elementUiModel ->
+            ) { index, elementUiModel ->
                 if (elementUiModel.element.interactionTarget == Puzzle15Model.Tile.EmptyTile) {
                     Box(
                         modifier = Modifier.size(60.dp)

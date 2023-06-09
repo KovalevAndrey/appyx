@@ -76,7 +76,7 @@ class TestDriveRotationMotionController<InteractionTarget : Any>(
 
     override fun mutableUiStateFor(
         uiContext: UiContext,
-        targetUiState: TargetUiState
+        targetUiState: TargetUiState, position: Int
     ): MutableUiState =
         targetUiState.toMutableState(uiContext)
 }

@@ -4,7 +4,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -15,8 +14,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.PointerEventType
@@ -42,8 +41,8 @@ fun <InteractionTarget : Any, ModelState : Any> Children(
     modifier: Modifier = Modifier,
     clipToBounds: Boolean = false,
     childContent: @Composable (ElementUiModel<InteractionTarget>) -> Unit = {},
-    childWrapper: @Composable (ElementUiModel<InteractionTarget>) -> Unit = { frameModel ->
-        ChildWrapper(frameModel) {
+    childWrapper: @Composable (Int, ElementUiModel<InteractionTarget>) -> Unit = { index , frameModel ->
+        ChildWrapper(index, frameModel) {
             childContent(frameModel)
         }
     },
@@ -57,6 +56,7 @@ fun <InteractionTarget : Any, ModelState : Any> Children(
         uiContext?.let { appyxComponent.updateContext(it) }
     }
     Box(
+        contentAlignment = Alignment.Center,
         modifier = modifier
             .fillMaxSize()
             .then(if (clipToBounds) Modifier.clipToBounds() else Modifier)
@@ -80,12 +80,12 @@ fun <InteractionTarget : Any, ModelState : Any> Children(
             }
     ) {
         elementUiModels
-            .forEach { elementUiModel ->
+            .forEachIndexed { index, elementUiModel ->
                 key(elementUiModel.element.id) {
                     elementUiModel.persistentContainer()
                     val isVisible by elementUiModel.visibleState.collectAsState()
                     if (isVisible) {
-                        childWrapper.invoke(elementUiModel)
+                        childWrapper.invoke(index, elementUiModel)
                     }
                 }
             }
@@ -94,10 +94,11 @@ fun <InteractionTarget : Any, ModelState : Any> Children(
 
 @Composable
 fun ChildWrapper(
+    index: Int,
     elementUiModel: ElementUiModel<*>,
     modifier: Modifier = Modifier.fillMaxSize(),
     contentDescription: String? = null,
-    content: @Composable () -> Unit
+    content: @Composable (Int) -> Unit
 ) {
     Box(
         modifier = Modifier
@@ -107,12 +108,13 @@ fun ChildWrapper(
                 contentDescription?.let { this.contentDescription = it }
             }
     ) {
-        content()
+        content(index)
     }
 }
 
 @Composable
 fun SampleElement(
+    index: Int,
     elementUiModel: ElementUiModel<*>,
     modifier: Modifier = Modifier.fillMaxSize(),
     colors: List<Color>,
@@ -126,7 +128,7 @@ fun SampleElement(
     Box(
         modifier = Modifier
             .then(elementUiModel.modifier)
-            .clip(RoundedCornerShape(5))
+//            .clip(RoundedCornerShape(5))
             .then(if (color == null) Modifier else Modifier.background(backgroundColor))
             .then(modifier)
             .padding(24.dp)
@@ -136,6 +138,7 @@ fun SampleElement(
     ) {
 
         Text(
+            modifier = Modifier.align(Alignment.Center),
             text = elementUiModel.element.interactionTarget.toString(),
             fontSize = 21.sp,
             color = Color.Black,

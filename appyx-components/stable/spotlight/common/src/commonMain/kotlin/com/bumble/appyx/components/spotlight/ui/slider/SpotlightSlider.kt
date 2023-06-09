@@ -9,6 +9,7 @@ import androidx.compose.ui.unit.dp
 import com.bumble.appyx.components.spotlight.SpotlightModel.State
 import com.bumble.appyx.components.spotlight.SpotlightModel.State.ElementState.CREATED
 import com.bumble.appyx.components.spotlight.SpotlightModel.State.ElementState.DESTROYED
+import com.bumble.appyx.components.spotlight.SpotlightModel.State.ElementState.SELECTED
 import com.bumble.appyx.components.spotlight.SpotlightModel.State.ElementState.STANDARD
 import com.bumble.appyx.components.spotlight.operation.Next
 import com.bumble.appyx.components.spotlight.operation.Previous
@@ -71,6 +72,7 @@ class SpotlightSlider<InteractionTarget : Any>(
                             CREATED -> created
                             STANDARD -> standard
                             DESTROYED -> destroyed
+                            else -> standard
                         },
                         positionInList = index,
                         elementWidth = width
@@ -82,7 +84,7 @@ class SpotlightSlider<InteractionTarget : Any>(
 
     override fun mutableUiStateFor(
         uiContext: UiContext,
-        targetUiState: TargetUiState
+        targetUiState: TargetUiState, position: Int
     ): MutableUiState =
         targetUiState.toMutableState(uiContext, scrollX.renderValueFlow, width)
 

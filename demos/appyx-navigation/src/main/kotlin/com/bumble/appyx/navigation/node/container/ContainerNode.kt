@@ -21,10 +21,10 @@ import com.bumble.appyx.navigation.modality.BuildContext
 import com.bumble.appyx.navigation.node.Node
 import com.bumble.appyx.navigation.node.ParentNode
 import com.bumble.appyx.navigation.node.backstack.BackStackExamplesNode
-import com.bumble.appyx.navigation.node.modal.ModalExamplesNode
 import com.bumble.appyx.navigation.node.backstack.debug.BackstackDebugNode
 import com.bumble.appyx.navigation.node.container.ContainerNode.InteractionTarget
 import com.bumble.appyx.navigation.node.datingcards.DatingCardsNode
+import com.bumble.appyx.navigation.node.modal.ModalExamplesNode
 import com.bumble.appyx.navigation.node.node
 import com.bumble.appyx.navigation.node.permanentchild.PermanentChildNode
 import com.bumble.appyx.navigation.node.promoter.PromoterNode
@@ -37,7 +37,7 @@ class ContainerNode(
     buildContext: BuildContext,
     private val backStack: BackStack<InteractionTarget> = BackStack(
         model = BackStackModel(
-            initialTargets = listOf(InteractionTarget.Selector),
+            initialTargets = listOf(InteractionTarget.SpotlightExperiment),
             savedStateMap = buildContext.savedStateMap,
         ),
         motionController = { BackStackSlider(it) }

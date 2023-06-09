@@ -59,7 +59,7 @@ class BackStack3D<InteractionTarget : Any>(
                 stashed.mapIndexed { index, element -> MatchedTargetUiState(element, stacked(stashed.size - index)) } +
                 destroyed.mapIndexed { _, element -> MatchedTargetUiState(element, incoming) }
 
-    override fun mutableUiStateFor(uiContext: UiContext, targetUiState: TargetUiState): MutableUiState =
+    override fun mutableUiStateFor(uiContext: UiContext, targetUiState: TargetUiState, position: Int): MutableUiState =
         targetUiState.toMutableState(uiContext)
 
     class Gestures<InteractionTarget : Any>(

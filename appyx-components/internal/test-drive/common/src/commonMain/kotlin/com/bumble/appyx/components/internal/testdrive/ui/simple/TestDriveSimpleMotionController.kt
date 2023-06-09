@@ -87,7 +87,7 @@ class TestDriveSimpleMotionController<InteractionTarget : Any>(
         )
     }
 
-    override fun mutableUiStateFor(uiContext: UiContext, targetUiState: TargetUiState): MutableUiState =
+    override fun mutableUiStateFor(uiContext: UiContext, targetUiState: TargetUiState, position: Int): MutableUiState =
         targetUiState.toMutableState(uiContext)
 
     class Gestures<InteractionTarget> : GestureFactory<InteractionTarget, TestDriveModel.State<InteractionTarget>> {

@@ -4,7 +4,9 @@ import androidx.compose.animation.core.SpringSpec
 import com.bumble.appyx.components.spotlight.SpotlightModel
 import com.bumble.appyx.components.spotlight.SpotlightModel.State.ElementState.CREATED
 import com.bumble.appyx.components.spotlight.SpotlightModel.State.ElementState.DESTROYED
+import com.bumble.appyx.components.spotlight.SpotlightModel.State.ElementState.SELECTED
 import com.bumble.appyx.components.spotlight.SpotlightModel.State.ElementState.STANDARD
+import com.bumble.appyx.components.spotlight.SpotlightModel.State.ElementState.DISMISSED
 import com.bumble.appyx.interactions.core.ui.context.UiContext
 import com.bumble.appyx.interactions.core.ui.helper.DefaultAnimationSpec
 import com.bumble.appyx.interactions.core.ui.property.impl.Alpha
@@ -38,6 +40,8 @@ class SpotlightFader<InteractionTarget : Any>(
                                 CREATED -> hidden
                                 STANDARD -> visible
                                 DESTROYED -> hidden
+                                SELECTED -> visible
+                                DISMISSED -> visible
                             }
                         } else {
                             hidden
@@ -50,7 +54,7 @@ class SpotlightFader<InteractionTarget : Any>(
 
     override fun mutableUiStateFor(
         uiContext: UiContext,
-        targetUiState: TargetUiState
+        targetUiState: TargetUiState, position: Int
     ): MutableUiState =
         targetUiState.toMutableState(uiContext)
 }

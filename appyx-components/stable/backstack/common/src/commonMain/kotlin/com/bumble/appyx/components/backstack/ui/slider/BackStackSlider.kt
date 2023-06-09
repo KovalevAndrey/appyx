@@ -43,6 +43,6 @@ class BackStackSlider<InteractionTarget : Any>(
                 )
             }
 
-    override fun mutableUiStateFor(uiContext: UiContext, targetUiState: TargetUiState): MutableUiState =
+    override fun mutableUiStateFor(uiContext: UiContext, targetUiState: TargetUiState, position: Int): MutableUiState =
         targetUiState.toMutableState(uiContext)
 }

@@ -99,7 +99,7 @@ class CardsMotionController<InteractionTarget : Any>(
         return result
     }
 
-    override fun mutableUiStateFor(uiContext: UiContext, targetUiState: TargetUiState): MutableUiState =
+    override fun mutableUiStateFor(uiContext: UiContext, targetUiState: TargetUiState, position: Int): MutableUiState =
         targetUiState.toMutableState(uiContext)
 
 

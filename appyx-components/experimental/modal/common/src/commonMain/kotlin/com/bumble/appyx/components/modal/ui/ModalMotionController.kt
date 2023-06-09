@@ -63,7 +63,7 @@ class ModalMotionController<InteractionTarget : Any>(
 
     override fun mutableUiStateFor(
         uiContext: UiContext,
-        targetUiState: TargetUiState
+        targetUiState: TargetUiState, position: Int
     ): MutableUiState = targetUiState.toMutableState(uiContext)
 
     class Gestures<InteractionTarget : Any>(

@@ -3,6 +3,7 @@ package com.bumble.appyx.components.spotlight
 import com.bumble.appyx.components.spotlight.SpotlightModel.State
 import com.bumble.appyx.components.spotlight.SpotlightModel.State.ElementState.DESTROYED
 import com.bumble.appyx.components.spotlight.SpotlightModel.State.ElementState.STANDARD
+import com.bumble.appyx.components.spotlight.SpotlightModel.State.ElementState.DISMISSED
 import com.bumble.appyx.interactions.Parcelable
 import com.bumble.appyx.interactions.Parcelize
 import com.bumble.appyx.interactions.RawValue
@@ -31,7 +32,7 @@ class SpotlightModel<InteractionTarget : Any>(
         ) : Parcelable
 
         enum class ElementState {
-            CREATED, STANDARD, DESTROYED
+            CREATED, STANDARD, DESTROYED, SELECTED, DISMISSED
         }
 
         fun hasPrevious(): Boolean =
@@ -56,38 +57,62 @@ class SpotlightModel<InteractionTarget : Any>(
             val newElements = position
                 .elements
                 .filterNot { mapEntry ->
-                    mapEntry.key == element && mapEntry.value == DESTROYED
+                    mapEntry.key == element && (mapEntry.value == DESTROYED || mapEntry.value == DISMISSED)
                 }
 
             position.copy(elements = newElements)
         }
+        println("newPositions: ${newPositions.size}")
         return copy(positions = newPositions)
     }
 
     override fun State<InteractionTarget>.removeDestroyedElements(): State<InteractionTarget> {
-        val newPositions = positions.map { position ->
+//        val newPositions = positions.map { position ->
+//            val newElements = position
+//                .elements
+//                .filterNot { mapEntry ->
+//                    (mapEntry.value == DESTROYED) || mapEntry.value == SWIPED_DOWN
+//                }
+//
+//            position.copy(elements = newElements)
+//        }
+//        return copy(positions = newPositions)
+        val newPositions = mutableListOf<State.Position<InteractionTarget>>()
+
+        var wasRemoved = false
+
+        positions.forEachIndexed { index, position ->
             val newElements = position
                 .elements
                 .filterNot { mapEntry ->
-                    mapEntry.value == DESTROYED
+                    mapEntry.value == DISMISSED
                 }
 
-            position.copy(elements = newElements)
+            if (newElements.size != position.elements.size) {
+                wasRemoved = true
+            }
+            if (newElements.isNotEmpty()) {
+                newPositions.add(position.copy(elements = newElements))
+            }
         }
-        return copy(positions = newPositions)
+        return copy(
+            positions = newPositions, activeIndex = if (wasRemoved) {
+                activeIndex
+            } else activeIndex
+        )
     }
 
     override fun State<InteractionTarget>.availableElements(): Set<Element<InteractionTarget>> =
         positions
             .flatMap { it.elements.entries }
-            .filter { it.value != DESTROYED }
+            .filter { it.value != DESTROYED || it.value != DISMISSED }
             .map { it.key }
             .toSet()
 
     override fun State<InteractionTarget>.destroyedElements(): Set<Element<InteractionTarget>> =
         positions
             .flatMap { it.elements.entries }
-            .filter { it.value == DESTROYED }
+            .filter { it.value != DESTROYED || it.value != DISMISSED }
             .map { it.key }
             .toSet()
 }

@@ -255,7 +255,7 @@ open class BaseAppyxComponent<InteractionTarget : Any, ModelState : Any>(
     override fun onDragEnd() {
         if (!_isAnimating.value) {
             drag.onDragEnd()
-            settle(gestureSettleConfig)
+            settle(gestureSettleConfig, drag.animateSettleLast)
         }
     }
 
@@ -265,7 +265,7 @@ open class BaseAppyxComponent<InteractionTarget : Any, ModelState : Any>(
         }
     }
 
-    private fun settle(gestureSettleConfig: GestureSettleConfig) {
+    private fun settle(gestureSettleConfig: GestureSettleConfig, animateSettle: Boolean) {
         if (isDebug) {
             debug?.settle()
         } else {
@@ -273,6 +273,8 @@ open class BaseAppyxComponent<InteractionTarget : Any, ModelState : Any>(
                 completionThreshold = gestureSettleConfig.completionThreshold,
                 completeGestureSpec = gestureSettleConfig.completeGestureSpec,
                 revertGestureSpec = gestureSettleConfig.revertGestureSpec,
+                animateSettle
+
             )
         }
     }

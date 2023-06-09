@@ -33,8 +33,10 @@ dependencies {
     val composeBom = platform(libs.compose.bom)
 
     api(project(":appyx-interactions:appyx-interactions"))
+    api(project(":demos:common"))
     api(libs.compose.ui.test.junit4)
     implementation(libs.androidx.test.core)
+    implementation("io.coil-kt:coil-compose:2.4.0")
 
     implementation(composeBom)
     androidTestImplementation(composeBom)

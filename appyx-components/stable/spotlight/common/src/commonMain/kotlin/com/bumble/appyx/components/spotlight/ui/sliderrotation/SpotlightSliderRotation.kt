@@ -7,6 +7,7 @@ import androidx.compose.ui.unit.dp
 import com.bumble.appyx.components.spotlight.SpotlightModel.State
 import com.bumble.appyx.components.spotlight.SpotlightModel.State.ElementState.CREATED
 import com.bumble.appyx.components.spotlight.SpotlightModel.State.ElementState.DESTROYED
+import com.bumble.appyx.components.spotlight.SpotlightModel.State.ElementState.SELECTED
 import com.bumble.appyx.components.spotlight.SpotlightModel.State.ElementState.STANDARD
 import com.bumble.appyx.interactions.core.ui.context.UiContext
 import com.bumble.appyx.interactions.core.ui.property.impl.Alpha
@@ -53,6 +54,7 @@ class SpotlightSliderRotation<InteractionTarget : Any>(
         alpha = Alpha.Target(0f),
     )
 
+
     override fun State<InteractionTarget>.toUiTargets(): List<MatchedTargetUiState<InteractionTarget, TargetUiState>> {
         return positions.flatMapIndexed { index, position ->
             position.elements.map {
@@ -63,6 +65,7 @@ class SpotlightSliderRotation<InteractionTarget : Any>(
                             CREATED -> created
                             STANDARD -> standard
                             DESTROYED -> destroyed
+                            else -> standard
                         },
                         positionInList = index,
                         elementWidth = width
@@ -72,7 +75,7 @@ class SpotlightSliderRotation<InteractionTarget : Any>(
         }
     }
 
-    override fun mutableUiStateFor(uiContext: UiContext, targetUiState: TargetUiState): MutableUiState =
+    override fun mutableUiStateFor(uiContext: UiContext, targetUiState: TargetUiState, position: Int): MutableUiState =
         targetUiState.toMutableState(uiContext, scrollX.renderValueFlow, width)
 }
 

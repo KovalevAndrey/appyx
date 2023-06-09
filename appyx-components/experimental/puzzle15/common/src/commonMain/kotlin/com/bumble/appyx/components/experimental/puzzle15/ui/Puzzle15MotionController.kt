@@ -46,7 +46,7 @@ class Puzzle15MotionController(
 
     override fun mutableUiStateFor(
         uiContext: UiContext,
-        targetUiState: TargetUiState
+        targetUiState: TargetUiState, position: Int
     ): MutableUiState =
         targetUiState.toMutableState(uiContext)
 
@@ -64,22 +64,26 @@ class Puzzle15MotionController(
             return when (dragDirection4(delta)) {
                 Drag.Direction4.UP -> Gesture(
                     operation = Swap(Swap.Direction.DOWN),
-                    completeAt = Offset(0f, -cellSize)
+                    completeAt = Offset(0f, -cellSize),
+                    isContinuous = false
                 )
 
                 Drag.Direction4.LEFT -> Gesture(
                     operation = Swap(Swap.Direction.RIGHT),
-                    completeAt = Offset(-cellSize, 0f)
+                    completeAt = Offset(-cellSize, 0f),
+                    isContinuous = false
                 )
 
                 Drag.Direction4.RIGHT -> Gesture(
                     operation = Swap(Swap.Direction.LEFT),
-                    completeAt = Offset(cellSize, 0f)
+                    completeAt = Offset(cellSize, 0f),
+                    isContinuous = false
                 )
 
                 Drag.Direction4.DOWN -> Gesture(
                     operation = Swap(Swap.Direction.UP),
-                    completeAt = Offset(0f, cellSize)
+                    completeAt = Offset(0f, cellSize),
+                    isContinuous = false
                 )
 
             }
