@@ -6,6 +6,6 @@
 
     We recommend you use that version instead. The code for 2.x you can find in the `2.x` branch of the repository.
 
-    **[Documentation root](../index.md)**
+    **[Documentation root](index.md)**
 
 ---
