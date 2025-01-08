@@ -2,8 +2,15 @@
 
 ## Pending changes
 
+-
+
+## 1.6.0
+
 - [#719](https://github.com/bumble-tech/appyx/pull/719) – **Updated**: Jetpack Compose to 1.7.6
 - [#720](https://github.com/bumble-tech/appyx/pull/720) – **Added**: Shared element transition and movable content support
+
+
+<div style="text-align: center"><small>8 Jan 2025</small></div>
 
 ## 1.5.1
 
