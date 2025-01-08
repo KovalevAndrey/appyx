@@ -46,6 +46,7 @@ dependencies {
     api(project(":libraries:customisations"))
     api(libs.androidx.lifecycle.common)
     api(libs.compose.animation.core)
+    api(libs.compose.animation.android)
     api(libs.compose.runtime)
     api(libs.androidx.appcompat)
     api(libs.kotlin.coroutines.android)
