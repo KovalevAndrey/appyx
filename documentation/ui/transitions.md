@@ -116,7 +116,7 @@ state.
 
 ```kotlin
 @Composable
-fun CustomMovableContent(key: Any, modifier: Modifier = Modifier) {
+fun CustomMovableContent(key: Any) {
     localMovableContentWithTargetVisibility(key = key) {
         // implement movable content here
         var counter by remember(pageId) { mutableIntStateOf(0) }
@@ -130,25 +130,61 @@ fun CustomMovableContent(key: Any, modifier: Modifier = Modifier) {
     }?.invoke()
 }
 
-// NodeOne 
-@Composable
-override fun View(modifier: Modifier) {
-    CustomMovableContent("movableContentKey")
+
+class NodeOne(
+   buildContext: BuildContext
+) : Node(
+   buildContext = buildContext
+) {
+    
+   @Composable
+   override fun View(modifier: Modifier) {
+       CustomMovableContent("movableContentKey")
+   }
+
 }
 
-// NodeTwo 
-@Composable
-override fun View(modifier: Modifier) {
-   CustomMovableContent("movableContentKey")
+class NodeTwo(
+   buildContext: BuildContext
+) : Node(
+   buildContext = buildContext
+) {
+
+   @Composable
+   override fun View(modifier: Modifier) {
+      CustomMovableContent("movableContentKey")
+   }
 }
 
-// ParentNode
-@Composable
-override fun View(modifier: Modifier) {
-   Children(
-      navModel = backStack,
-      withMovableContent = true,
+class ParentNode(
+   buildContext: BuildContext,
+   backStack: BackStack<NavTarget> = BackStack(
+      initialElement = NavTarget.Child1,
+      savedStateMap = buildContext.savedStateMap
    )
+) : ParentNode<NavTarget>(
+   buildContext = buildContext,
+   navModel = backStack,
+) {
+
+   override fun resolve(navTarget: NavTarget, buildContext: BuildContext): Node =
+      when (navTarget) {
+         NavTarget.Child1 -> NodeOne(buildContext)
+         NavTarget.Child2 -> NodeTwo(buildContext)
+      }
+
+   @Composable
+   override fun View(modifier: Modifier) {
+      Children(
+         // or any other NavModel
+         navModel = backStack,
+         // or no transitionHandler at all. Using a slider will make the shared element slide away
+         // with the rest of of the content.
+         transitionHandler = rememberBackStackFader(),
+         withMovableContent = true,
+         withSharedElementTransition = true
+      )
+   }
 }
 
 ```
