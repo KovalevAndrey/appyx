@@ -3,9 +3,9 @@ package com.bumble.appyx.sandbox.client.test
 import com.bumble.appyx.core.node.NodeView
 import com.bumble.appyx.core.node.ViewFactory
 import com.bumble.appyx.testing.ui.rules.AppyxViewTestRule
-import io.reactivex.ObservableSource
-import io.reactivex.functions.Consumer
-import io.reactivex.observers.TestObserver
+import io.reactivex.rxjava3.core.ObservableSource
+import io.reactivex.rxjava3.functions.Consumer
+import io.reactivex.rxjava3.observers.TestObserver
 
 class AppyxMviViewTestRule<ViewModel : Any, Event : Any, View : NodeView>(
     private val modelConsumer: (View) -> Consumer<in ViewModel>,

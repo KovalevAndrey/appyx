@@ -12,8 +12,8 @@ import com.bumble.appyx.sandbox.client.mvicoreexample.feature.MviCoreExampleFeat
 import com.bumble.appyx.sandbox.client.mvicoreexample.feature.MviCoreExampleFeature.Wish.ChildInput
 import com.bumble.appyx.sandbox.client.mvicoreexample.feature.MviCoreExampleFeature.Wish.Finish
 import com.bumble.appyx.sandbox.client.mvicoreexample.feature.MviCoreExampleFeature.Wish.LoadData
-import io.reactivex.Observable
-import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.core.Observable
 import java.util.concurrent.TimeUnit
 
 class MviCoreExampleFeature(initialStateName: String) :
@@ -26,28 +26,28 @@ class MviCoreExampleFeature(initialStateName: String) :
 
     sealed class State {
         data class InitialState(val stateName: String) : State()
-        object Loading : State()
+        data object Loading : State()
         data class Loaded(val stateName: String) : State()
-        object Finished : State()
+        data object Finished : State()
     }
 
     sealed class Wish {
         data class ChildInput(val data: String) : Wish()
-        object LoadData : Wish()
-        object Finish : Wish()
+        data object LoadData : Wish()
+        data object Finish : Wish()
         data class ChangeState(val stateName: String) : Wish()
     }
 
     sealed class Effect {
         data class ChangeState(val stateName: String) : Effect()
         data class ChildInput(val data: String) : Effect()
-        object Loading : Effect()
-        object Finished : Effect()
-        object DataLoaded : Effect()
+        data object Loading : Effect()
+        data object Finished : Effect()
+        data object DataLoaded : Effect()
     }
 
     sealed class News {
-        object Finished : News()
+        data object Finished : News()
         data class StateUpdated(val message: String) : News()
     }
 
@@ -59,7 +59,7 @@ class MviCoreExampleFeature(initialStateName: String) :
                 is ChildInput -> Effect.ChildInput(wish.data).toObservable()
                 is LoadData -> Observable.timer(2, TimeUnit.SECONDS)
                     .map<Effect> { Effect.DataLoaded }
-                    .startWith(Effect.Loading)
+                    .startWithItem(Effect.Loading)
                     .observeOn(AndroidSchedulers.mainThread())
             }
     }
@@ -86,5 +86,5 @@ class MviCoreExampleFeature(initialStateName: String) :
 }
 
 
-fun <T> T?.toObservable(): Observable<T> =
+fun <T : Any> T?.toObservable(): Observable<T> =
     if (this == null) Observable.empty() else Observable.just(this)

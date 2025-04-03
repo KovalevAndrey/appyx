@@ -12,8 +12,8 @@ import com.badoo.ribs.core.view.ViewFactoryBuilder
 import com.bumble.appyx.R
 import com.bumble.appyx.sandbox.client.interop.parent.RibsParentView.Event
 import com.bumble.appyx.sandbox.client.interop.parent.RibsParentView.Event.SwitchClicked
-import com.jakewharton.rxrelay2.PublishRelay
-import io.reactivex.ObservableSource
+import com.jakewharton.rxrelay3.PublishRelay
+import io.reactivex.rxjava3.core.ObservableSource
 
 interface RibsParentView : RibView, ObservableSource<Event> {
 

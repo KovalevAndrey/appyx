@@ -9,7 +9,7 @@ import com.badoo.ribs.core.view.ViewFactory
 import com.badoo.ribs.test.builder.RibBuilderStub
 import com.badoo.ribs.test.node.RibNodeStub
 import com.badoo.ribs.test.node.RibNodeTestHelper
-import com.badoo.ribs.test.rx2.view.RibViewStub
+import com.badoo.ribs.test.rx3.view.RibViewStub
 import com.bumble.appyx.core.builder.SimpleBuilder
 import com.bumble.appyx.core.integrationpoint.IntegrationPointStub
 import com.bumble.appyx.interop.ribs.InteropNode
