@@ -2,7 +2,7 @@
 
 ## Pending changes
 
--
+- [#727](https://github.com/bumble-tech/appyx/pull/727) – **Updated**: Ribs to 0.41.0 and MVICore to 2.0.0
 
 ## 1.6.0
 
