@@ -22,7 +22,7 @@ jobs:
       - uses: gradle/wrapper-validation-action@v2
       - uses: gradle/actions/setup-gradle@v3
         with:
-          cache-read-only: ${{ env.MAIN_BRANCH != 'true' }}
+          cache-read-only: true
       - run: pip install mkdocs-material
       - run: pip install mkdocs-macros-plugin
       - run: pip install mkdocs-redirects

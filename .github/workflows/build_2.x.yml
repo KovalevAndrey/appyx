@@ -22,7 +22,7 @@ jobs:
         with:
           distribution: 'zulu'
           java-version: '17'
-      - uses: gradle/wrapper-validation-action@v2
+      - uses: gradle/actions/wrapper-validation@v3
       - uses: gradle/actions/setup-gradle@v3
         with:
           cache-read-only: ${{ env.MAIN_BRANCH != 'true' }}
@@ -75,7 +75,7 @@ jobs:
         with:
           distribution: 'zulu'
           java-version: '17'
-      - uses: gradle/wrapper-validation-action@v2
+      - uses: gradle/actions/wrapper-validation@v3
       - uses: gradle/actions/setup-gradle@v3
         with:
           cache-read-only: ${{ env.MAIN_BRANCH != 'true' }}
@@ -99,7 +99,7 @@ jobs:
         with:
           distribution: 'zulu'
           java-version: '17'
-      - uses: gradle/wrapper-validation-action@v2
+      - uses: gradle/actions/wrapper-validation@v3
       - uses: gradle/actions/setup-gradle@v3
         with:
           cache-read-only: ${{ env.MAIN_BRANCH != 'true' }}
@@ -137,7 +137,7 @@ jobs:
         with:
           distribution: 'zulu'
           java-version: '17'
-      - uses: gradle/wrapper-validation-action@v2
+      - uses: gradle/actions/wrapper-validation@v3
       - uses: gradle/actions/setup-gradle@v3
         with:
           cache-read-only: ${{ env.MAIN_BRANCH != 'true' }}
