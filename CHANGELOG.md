@@ -2,7 +2,17 @@
 
 ## Pending changes
 
+- 
+
+---
+
+## 1.7.0
+
 - [#727](https://github.com/bumble-tech/appyx/pull/727) – **Updated**: Ribs to 0.41.0 and MVICore to 2.0.0
+
+<div style="text-align: center"><small>7 Apr 2025</small></div>
+
+---
 
 ## 1.6.0
 
@@ -11,6 +21,8 @@
 
 
 <div style="text-align: center"><small>8 Jan 2025</small></div>
+
+---
 
 ## 1.5.1
 
