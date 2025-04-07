@@ -8,7 +8,7 @@ import com.badoo.ribs.routing.source.backstack.BackStack
 import com.badoo.ribs.routing.source.backstack.operation.push
 import com.bumble.appyx.sandbox.client.interop.parent.routing.RibsParentRouter.Configuration
 import com.bumble.appyx.sandbox.client.interop.parent.RibsParentView.Event
-import io.reactivex.functions.Consumer
+import io.reactivex.rxjava3.functions.Consumer
 
 internal class RibsParentInteractor(
     private val backStack: BackStack<Configuration>,

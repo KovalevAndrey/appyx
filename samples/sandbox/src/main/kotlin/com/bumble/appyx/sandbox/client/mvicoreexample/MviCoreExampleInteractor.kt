@@ -22,7 +22,7 @@ import com.bumble.appyx.sandbox.client.mvicoreexample.feature.MviCoreExampleFeat
 import com.bumble.appyx.sandbox.client.mvicoreexample.feature.OutputChild1ToWish
 import com.bumble.appyx.sandbox.client.mvicoreexample.feature.OutputChild2ToWish
 import com.bumble.appyx.sandbox.client.mvicoreexample.feature.StateToViewModel
-import io.reactivex.functions.Consumer
+import io.reactivex.rxjava3.functions.Consumer
 
 class MviCoreExampleInteractor(
     private val view: MviCoreExampleView,

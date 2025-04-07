@@ -37,9 +37,9 @@ import com.bumble.appyx.sandbox.client.mvicoreexample.feature.ViewModel
 import com.bumble.appyx.sandbox.client.mvicoreexample.feature.ViewModel.InitialState
 import com.bumble.appyx.sandbox.client.mvicoreexample.feature.ViewModel.Loaded
 import com.bumble.appyx.sandbox.client.mvicoreexample.feature.ViewModel.Loading
-import com.jakewharton.rxrelay2.PublishRelay
-import io.reactivex.ObservableSource
-import io.reactivex.functions.Consumer
+import com.jakewharton.rxrelay3.PublishRelay
+import io.reactivex.rxjava3.core.ObservableSource
+import io.reactivex.rxjava3.functions.Consumer
 
 interface MviCoreExampleView : Consumer<ViewModel>, ObservableSource<Event>
 
@@ -102,6 +102,7 @@ class MviCoreExampleViewImpl(
                             .testTag(LoadingTestTag)
                     )
                 }
+
                 is InitialState ->
                     Box(modifier = Modifier.fillMaxSize()) {
                         Column(modifier = Modifier.align(Alignment.Center)) {
@@ -121,6 +122,7 @@ class MviCoreExampleViewImpl(
                             }
                         }
                     }
+
                 is Loaded ->
                     Box(modifier = Modifier.fillMaxSize()) {
                         Text(

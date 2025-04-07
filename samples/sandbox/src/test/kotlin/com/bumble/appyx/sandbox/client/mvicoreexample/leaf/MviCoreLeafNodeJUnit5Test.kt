@@ -3,7 +3,7 @@ package com.bumble.appyx.sandbox.client.mvicoreexample.leaf
 import androidx.lifecycle.Lifecycle
 import com.bumble.appyx.core.modality.BuildContext
 import com.bumble.appyx.core.node.Node
-import com.bumble.appyx.interop.rx2.plugin.disposeOnDestroyPlugin
+import com.bumble.appyx.interop.rx3.plugin.disposeOnDestroyPlugin
 import com.bumble.appyx.sandbox.client.mvicoreexample.MviCoreExampleNode.NavTarget
 import com.bumble.appyx.sandbox.client.mvicoreexample.MviCoreExampleViewImpl.Event
 import com.bumble.appyx.sandbox.client.mvicoreexample.feature.MviCoreExampleFeature.News

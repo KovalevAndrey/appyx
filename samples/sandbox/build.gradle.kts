@@ -60,7 +60,7 @@ dependencies {
 
     implementation(composeBom)
     implementation(project(":libraries:core"))
-    implementation(project(":libraries:interop-rx2"))
+    implementation(project(":libraries:interop-rx3"))
     implementation(project(":libraries:interop-ribs"))
     implementation(project(":samples:navmodel-samples"))
     implementation(project(":samples:common"))
@@ -80,9 +80,9 @@ dependencies {
     implementation(libs.mvicore.base)
     implementation(libs.mvicore.android)
     implementation(libs.mvicore.binder)
-    implementation(libs.rxjava2)
-    implementation(libs.rxandroid2)
-    implementation(libs.rxrelay2)
+    implementation(libs.rxjava3)
+    implementation(libs.rxandroid3)
+    implementation(libs.rxrelay3)
     implementation(libs.toolargetool)
 
     testImplementation(libs.androidx.arch.core.testing)
@@ -93,7 +93,7 @@ dependencies {
     testImplementation(project(":libraries:testing-junit4"))
     testImplementation(project(":libraries:testing-junit5"))
     testImplementation(libs.ribs.base.test)
-    testImplementation(libs.ribs.base.test.rx2)
+    testImplementation(libs.ribs.base.test.rx3)
 
     androidTestImplementation(composeBom)
     androidTestImplementation(libs.androidx.test.espresso.core)

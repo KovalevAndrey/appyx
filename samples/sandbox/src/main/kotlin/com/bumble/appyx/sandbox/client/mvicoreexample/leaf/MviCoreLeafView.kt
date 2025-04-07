@@ -22,9 +22,9 @@ import androidx.compose.ui.unit.sp
 import com.bumble.appyx.core.node.NodeView
 import com.bumble.appyx.sandbox.client.mvicoreexample.MviCoreExampleViewImpl
 import com.bumble.appyx.sandbox.client.mvicoreexample.feature.ViewModel
-import com.jakewharton.rxrelay2.PublishRelay
-import io.reactivex.ObservableSource
-import io.reactivex.functions.Consumer
+import com.jakewharton.rxrelay3.PublishRelay
+import io.reactivex.rxjava3.core.ObservableSource
+import io.reactivex.rxjava3.functions.Consumer
 
 interface MviCoreLeafView : Consumer<ViewModel>, ObservableSource<MviCoreExampleViewImpl.Event>
 
