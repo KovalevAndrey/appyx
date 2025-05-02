@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<issues format="6" by="lint 8.5.2" type="baseline" client="gradle" dependencies="false" name="AGP (8.5.2)" variant="all" version="8.5.2">
+<issues format="6" by="lint 8.9.2" type="baseline" client="gradle" dependencies="false" name="AGP (8.9.2)" variant="all" version="8.9.2">
 
     <issue
-        id="SuspiciousModifierThen"
-        message="Using Modifier.then with a Modifier factory function with an implicit receiver"
-        errorLine1="                    aspectRatio(1f)"
-        errorLine2="                    ~~~~~~~~~~~">
+        id="ConfigurationScreenWidthHeight"
+        message="Using Configuration.screenHeightDp instead of LocalWindowInfo.current.containerSize"
+        errorLine1="        val screenHeight = LocalConfiguration.current.screenHeightDp"
+        errorLine2="                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="src/main/kotlin/com/bumble/appyx/navmodel/spotlightadvanced/transitionhandler/SpotlightAdvancedSlider.kt"
-            line="93"
-            column="21"/>
+            file="src/main/kotlin/com/bumble/appyx/navmodel/modal/ModalTransitionHandler.kt"
+            line="34"
+            column="28"/>
     </issue>
 
     <issue
